@@ -1,6 +1,7 @@
 const request = require('request')
 const fs = require('fs')
 const cheerio = require('cheerio')
+import { recursionMkdir, IMAGE_DIR } from './paths.js'
 
 /**
  * get html body, return promise 
@@ -22,14 +23,22 @@ function getHtmlBodyByUrl(base, index) {
     })
 }
 
-
 /** 
  * download image with Referer header info, return promise
+ * @param imgUrl 
+ * @param dir './comic_1'
+ * @param filename '1.jpg'
+ * @param referer
 */
-function downloadImageWithRefer(imgUrl, dir, filename, referer) {
+async function downloadImageWithRefer(imgUrl, dir, filename, referer) {
+    let fileDir = path.resolve(IMAGE_DIR, dir)
+    let result = await recursionMkdir(fileDir)
     return new Promise((resolve, reject) => {
         if (!referer) {
-            reject('need referer !')
+            return resolve('need referer !')
+        }
+        if (!result) {
+            return resolve('make dir error!')
         }
         request({
             url: imgUrl,
@@ -38,14 +47,12 @@ function downloadImageWithRefer(imgUrl, dir, filename, referer) {
                 'Referer': referer,
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15'
             }
-        }).pipe()
+        }).pipe(fs.createWriteStream(`${fileDir}/${filename}`))
     })
 }
 
-
-
-
 export default {
-    getHtmlBodyByUrl
+    getHtmlBodyByUrl,
+    downloadImageWithRefer
 }
 
