@@ -51,11 +51,7 @@ async function recursionMkdir(dir) {
     return mkdirStatus;
 }
 
-/**
- * check and create dir
- */
-
-export default {
+module.exports = {
     ROOT_PATH,
     IMAGE_DIR,
     VIDEO_DIR,
