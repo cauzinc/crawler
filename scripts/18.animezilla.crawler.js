@@ -1,4 +1,4 @@
-const { getHtmlBodyByUrl, downloadImageWithRefer } = require('../config/utils.js')
+const { getHtmlBodyByUrl, downloadImageWithRefer } = require('../utils/index.js')
 
 let mangaName = '[中文A漫][7zu7] 異種姦オーガズム/異種姦性高潮'
 let pageCount = 201
