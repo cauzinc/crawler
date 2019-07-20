@@ -5,7 +5,6 @@ let pageCount = 201
 let no = 3496
 
 async function requestUrl(index, mangaNo) {
-    
     const base = `https://18h.animezilla.com/manga/${mangaNo}`
     const $ = await getHtmlBodyByUrl(base, index)
     let img = $('#comic');
