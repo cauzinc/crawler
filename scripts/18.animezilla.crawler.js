@@ -34,10 +34,10 @@ async function requestUrl(index, mangaNo) {
     
 }
 
-async function run(pageCount, mangaNo) {
+async function run(pageCount, mangaNo, startIndex) {
     let go = true;
-    let count = 1;
-    while(go) {
+    let count = startIndex || 1;
+        while(go) {
         let result = await requestUrl(count, mangaNo)
         if(count >= pageCount) {
             go = false
@@ -49,5 +49,5 @@ async function run(pageCount, mangaNo) {
 }
 
 
-run(pageCount, no);
+run(pageCount, no, 63);
 // requestUrl(12)
