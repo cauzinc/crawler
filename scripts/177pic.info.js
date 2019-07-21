@@ -1,5 +1,7 @@
 const cheerio = require('cheerio');
-const { getHtmlBodyByUrl, downloadImageWithRefer, executeSyncPromises } = require('../utils');
+const {
+  getHtmlBodyByUrl, downloadImageWithRefer, executeSyncPromises
+} = require('../utils');
 
 let imgIndex = 1;
 
@@ -18,13 +20,14 @@ async function getTargetUrl(baseUrl, dir) {
 
   console.log('picLength', picLength);
   const taskArr = [];
+
   for (let i = 0; i < picLength; i++) {
     const noscriptHtml = picList[i].children[0].data;
     const body = cheerio.load(noscriptHtml);
     const img = body('img');
     const src = img.attr('src');
     if (src) {
-      console.log('src', imgIndex, src);
+      // console.log('src', imgIndex, src);
       const filename = `${imgIndex}.jpg`;
       taskArr.push(() => downloadImageWithRefer(src, dir, filename, baseUrl));
       imgIndex++;
@@ -40,11 +43,14 @@ async function getTargetUrl(baseUrl, dir) {
 
 async function run(url, page, dir) {
   let pageCount = 1;
+  const downloadQueue = [];
   for (; pageCount < page; pageCount++) {
     console.log(`----------pageCount${pageCount}----------`);
     const baseUrl = pageCount === 1 ? url : `${url}/${pageCount}/`;
-    getTargetUrl(baseUrl, dir);
+    downloadQueue.push(() => getTargetUrl(baseUrl, dir));
   }
+
+  await executeSyncPromises(downloadQueue);
 }
 const url = 'http://www.177pic.info/html/2019/07/2977875.html';
 const dir = './[メガねぃ] 思春期セックス 思春期少女性愛 [205P]';

@@ -97,7 +97,8 @@ async function executeSyncPromises(funcArr) {
     funcArr.reduce((prev, next, index) => {
       if (index === funcArr.length - 1) {
         return prev.then(() => {
-          next(resolve);
+          next();
+          resolve(true);
         });
       }
       return prev.then(() => next());
