@@ -45,15 +45,20 @@ async function downloadImageWithRefer(imgUrl, dir, filename, referer) {
         if (!result) {
             return resolve('make dir error!')
         }
-        request({
+        let req = request({
             url: imgUrl,
             method: 'GET',
             headers: {
                 'Referer': referer,
                 ...httpConfig.httpHeaders
             }
-        }).pipe(writeStream)
-        resolve(true)
+        })
+        req.pipe(writeStream)
+        req.on('end', (res) => {
+            console.log('download success', imgUrl)
+            resolve(true)
+        })
+        
     })
 }
 
