@@ -15,5 +15,12 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    "no-console": 0,
+    "no-plusplus": 0,
+    "consistent-return": 0,
+    "array-callback-return": 0,
+    "comma-dangle": 0,
+    "func-names": 0,
+    "no-unused-expressions": 0
   },
 };
