@@ -1,10 +1,6 @@
 const { getHtmlBodyByUrl, downloadImageWithRefer } = require('../utils/index.js')
 
-let mangaName = '[中文A漫][7zu7] 異種姦オーガズム/異種姦性高潮'
-let pageCount = 201
-let no = 3496
-
-async function requestUrl(index, mangaNo) {
+async function requestUrl(index, mangaNo, mangaName) {
     const base = `https://18h.animezilla.com/manga/${mangaNo}`
     const $ = await getHtmlBodyByUrl(base, index)
     let img = $('#comic');
@@ -14,16 +10,6 @@ async function requestUrl(index, mangaNo) {
         src = img.attr('src');
         console.log(src);
         result = await downloadImageWithRefer(src, `./${mangaName}`, `${index}.jpg` , `https://18h.animezilla.com/manga/${mangaNo}/${index}`)
-        
-        // request({
-        //     url: src,
-        //     method: 'GET',
-        //     headers: {
-        //         'Referer': `https://18h.animezilla.com/manga/${mangaNo}/${index}`,
-        //         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15'
-        //     }
-        // }).pipe(fs.createWriteStream(`../assets/img/${index}.jpg`))
-        // reslove({ src, img })
     } else {
         console.log('no src', img);
     }
@@ -33,11 +19,11 @@ async function requestUrl(index, mangaNo) {
     
 }
 
-async function run(pageCount, mangaNo, startIndex) {
+async function run(pageCount, mangaNo, mangaName, startIndex) {
     let go = true;
     let count = startIndex || 1;
         while(go) {
-        let result = await requestUrl(count, mangaNo)
+        let result = await requestUrl(count, mangaNo, mangaName)
         if(count >= pageCount) {
             go = false
         } else {
@@ -47,6 +33,9 @@ async function run(pageCount, mangaNo, startIndex) {
     }
 }
 
+let mangaName = '[中文A漫][7zu7] 異種姦オーガズム/異種姦性高潮'
+let pageCount = 201
+let no = 3496
 
-run(pageCount, no, 63);
+run(pageCount, no, mangaName, 63);
 // requestUrl(12)
