@@ -15,7 +15,7 @@ async function getTargetUrl(baseUrl, dir) {
         let img = body('img') 
         let src = img.attr('src')
         if (src) {
-            console.timeLog('src', imgIndex, src)
+            // console.timeLog('src', imgIndex, src)
             let filename = `${imgIndex}.jpg`
             await downloadImageWithRefer(src, dir, filename, baseUrl)  
             imgIndex++
